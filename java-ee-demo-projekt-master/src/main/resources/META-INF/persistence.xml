@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Data Source Usage -->
+<persistence version="2.1"
+   xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+
+
+   <persistence-unit name="localH2"> <!-- "Name / Reference from Java" -->
+
+      <!-- The datasource is deployed as WEB-INF/localTestingH2-ds.xml, you
+         can find it in the source at src/main/webapp/WEB-INF/localTestingH2-ds.xml -->
+      <jta-data-source>java:global/localTestingH2</jta-data-source> <!-- Detail-Configuration -->
+
+      <properties>
+         <!-- Properties for Hibernate / JPA -->
+         <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+         <property name="hibernate.show_sql" value="false" />
+         <property name="javax.persistence.sql-load-script-source"
+                   value="META-INF/bigmac.sql" />
+
+      </properties>
+   </persistence-unit>
+
+   <!--  RESOURCE_LOCAL vs JTA : https://stackoverflow.com/questions/1962525/persistence-unit-as-resource-local-or-jta -->
+   <persistence-unit name="localRES" transaction-type="RESOURCE_LOCAL">
+      <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+      <class>de.ostfalia.se.geo.entity.City</class>
+      <class>de.ostfalia.se.geo.entity.Country</class>
+      <class>de.ostfalia.se.geo.entity.Region</class>
+      <class>de.ostfalia.se.bigmacindex.entity.BigMacIndex</class>
+
+      <properties>
+
+         <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:defaultProject2;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1" />
+         <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+
+         <property name="hibernate.show_sql" value="false" />
+         <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+         <property name="javax.persistence.sql-load-script-source" value="META-INF/bigmac.sql" />
+
+      </properties>
+
+   </persistence-unit>
+
+
+
+
+</persistence>
+
